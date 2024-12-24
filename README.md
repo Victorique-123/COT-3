@@ -1,14 +1,20 @@
-# MinIO Storage Limit Test
+# MinIO Storage Task
 
-This project demonstrates MinIO storage limits using Docker Compose with an automatic data uploader.
+本项目实现了基于MinIO的对象存储服务，包含容量限制测试和自动数据上传功能。
 
-## Prerequisites
+## 项目结构
 
-- Docker
-- Docker Compose
+minio/
+├── uploader/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── upload.py
+├── config/
+│   └── .env
+└── docker-compose.yml
 
-## Setup and Run
+## 配置说明
 
-1. Clone this repository:
-   ```bash
-   git clone <repository-url>
+## 运行说明
+
+## 测试结果
