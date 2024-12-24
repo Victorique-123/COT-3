@@ -1,0 +1,61 @@
+# version: '3'
+# services:
+#  minio:
+#    image: minio/minio
+#    ports:
+#      - "9000:9000"
+#      - "9001:9001"
+#    environment:
+#      MINIO_ROOT_USER: minioadmin     
+#      MINIO_ROOT_PASSWORD: minioadmin  
+#      MINIO_ADDRESS: ":9000"          
+#      MINIO_CONSOLE_ADDRESS: ":9001"  
+#      # 修改为30MB (30 * 1024 * 1024 = 31457280 bytes)
+#      MINIO_BROWSER_DISK_TOTAL_BYTES: "31457280"  # 30MB 
+#      MINIO_BROWSER_DISK_USED_BYTES: "0"
+#    command: server /data
+#    tmpfs:
+#      # 修改为40MB，给系统留10MB缓冲空间
+#      - /data:size=40M,exec
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 1G
+#    healthcheck:           
+#      test: ["CMD", "mc", "ready", "local"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+
+
+version: '3'
+services:
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - ./config/.env
+    command: server /data
+    tmpfs:
+      - /data:size=40M,exec
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    healthcheck:           
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  uploader:
+    build: ./uploader
+    depends_on:
+      minio:
+        condition: service_healthy
+    env_file:  
+      - ./config/.env  
+    environment:
+      - MINIO_HOST=minio:9000
