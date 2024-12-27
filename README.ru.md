@@ -1,4 +1,4 @@
-[Русский](./README.md) | [中文](./README.zh-CN.md)
+[中文](./README.md) | [Русский](./README.ru.md) 
 
 # Задание по хранилищу MinIO
 
